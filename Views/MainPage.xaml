@@ -1,0 +1,94 @@
+<Page
+    x:Class="TabViewApp.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:TabViewApp.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <!-- Template với Badge (Full và Flex) -->
+        <DataTemplate x:Key="BadgeTabHeaderTemplate" x:DataType="local:TabItemModel">
+            <!-- Grid Constraint to allow centering or stretching -->
+            <Grid Margin="12,0,12,0" HorizontalAlignment="Stretch">
+                <!-- Inner Grid centers the Text accurately. The Badge is placed using a negative right margin so it doesn't affect the exact centering of the Text. -->
+                <Grid HorizontalAlignment="Center">
+                    <TextBlock Text="{x:Bind HeaderText}" 
+                               TextTrimming="CharacterEllipsis" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"/>
+                    
+                    <!-- Anchored to the right of the text. 
+                         Width=8, Right Margin=-10 => Left edge is pushed exactly (+10 - 8 = +2px) outside the right boundary. -->
+                    <Border HorizontalAlignment="Right"
+                            Width="8" Height="8" 
+                            CornerRadius="4" 
+                            Background="Red" 
+                            Margin="0,0,-10,0"
+                            VerticalAlignment="Center" />
+                </Grid>
+            </Grid>
+        </DataTemplate>
+        
+        <!-- Template KHÔNG có Badge -->
+        <DataTemplate x:Key="NoBadgeTabHeaderTemplate" x:DataType="local:TabItemModel">
+            <Grid Margin="12,0,12,0" HorizontalAlignment="Stretch">
+                <!-- Chỉ chứa TextBlock, tự động căn giữa tự nhiên bằng HorizontalAlignment="Center" -->
+                <TextBlock Text="{x:Bind HeaderText}" 
+                           TextTrimming="CharacterEllipsis" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TabTemplateWithBadge" x:DataType="local:TabItemModel">
+            <TabViewItem Header="{x:Bind}" HeaderTemplate="{StaticResource BadgeTabHeaderTemplate}" 
+                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="TabTemplateNoBadge" x:DataType="local:TabItemModel">
+            <TabViewItem Header="{x:Bind}" HeaderTemplate="{StaticResource NoBadgeTabHeaderTemplate}" 
+                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        </DataTemplate>
+        
+        <!-- Override padding for TabViewItem to remove default inner padding -->
+        <Style TargetType="TabViewItem">
+            <Setter Property="Padding" Value="0,10,0,10" />
+            <Setter Property="MaxWidth" Value="240" />
+            <Setter Property="CornerRadius" Value="24" />
+            <Setter Property="Margin" Value="4,4,4,4" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="#E5E5E5" /> <!-- Gray background -->
+            <Setter Property="IsClosable" Value="False" /> <!-- Remove 'x' button -->
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" Spacing="16" Margin="16" HorizontalAlignment="Center">
+            <TextBlock Text="Select Style:" VerticalAlignment="Center" FontWeight="Bold"/>
+            <RadioButton Content="Full Style" Tag="FullStyle" IsChecked="True" Checked="OnStyleRadioChecked" />
+            <RadioButton Content="Flex Style" Tag="FlexStyle" Checked="OnStyleRadioChecked" />
+            <RadioButton Content="No Badge (Text Only)" Tag="NoBadge" Checked="OnStyleRadioChecked" />
+        </StackPanel>
+
+        <TabView x:Name="MyTabView" 
+                 Grid.Row="1"
+                 TabItemsSource="{x:Bind Tabs}" 
+                 IsAddTabButtonVisible="False"
+                 TabWidthMode="Equal"
+                 TabItemTemplate="{StaticResource TabTemplateWithBadge}"
+                 SelectionChanged="MyTabView_SelectionChanged">
+            <!-- Background to see the content strictly -->
+            <Grid Margin="24">
+                <TextBlock x:Name="MainContentText" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+        </TabView>
+    </Grid>
+</Page>

@@ -1,0 +1,19 @@
+Tạo 1 project sử dụng WinUI và C# và xaml
+Tạo 5 tab, khi click vào tab hiên chữ tab 1, tab 2, ... tab5.
+Có 2 style của tab header là FullStyle và FlexStyle.
+FullStyle : 
+Hãy custom tab header, mỗi tab header bao bồm 2 thành phần : 1 content text và 1 badge.
+content text luôn được căn giữa, badge ở bên phải content cách 2px.
+tab item sẽ có max width.
+Nếu content text ít chữ thì content text được căn giữa, badge nằm bên phải content text cách 2px
+(.....[contenttext]..*..)
+( N px[contenttext] N px)
+Nếu content text nhiều chữ thì nó sẽ hiện dạng Character trim, Khoảng cách từ border trái của tab đến chữ đầu tiên của content text là 12px
+khoảng cách từ border phải đến dấu chấm khi trim text là 12px. badge sẽ nằm bên phải của text 2px, nó sẽ thuộc khoảng 12px từ ... đến border phải.
+(.....[contentt...]..*..)
+( 12px[contentt...] 12px)
+FlexStyle : Border của tab khớp với độ rộng của content text. Khoảng cách 2 đầu border đến chạm đến content là 12px (Margin)
+Badge nằm bên phải content text cách 2px. 
+(.....[contenttext]..*..)
+( 12px[contenttext] 12px)
+tạo radio button cho phép chọn kiểu full, flex style
